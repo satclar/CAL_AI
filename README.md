@@ -2,7 +2,7 @@
 flowchart LR
 
     %% ---- CLIENTS (4: Consumption) ----
-    subgraph Clients["4️⃣ Clients & Channels"]
+    subgraph Clients["4️⃣ Clients & Channels (Enterprise Consumption)"]
         Apps["Business & Web Apps"]
         Bots["Bots / Agents"]
         Copilot["Copilot / MCP"]
@@ -10,56 +10,53 @@ flowchart LR
     end
 
     %% ---- AI GATEWAY CORE (1: Platform Foundations) ----
-    subgraph Gateway["1️⃣ AI Gateway (APIM + Core Access Layer)"]
+    subgraph Gateway["1️⃣ AI Gateway Core (Platform Foundations)"]
         APIM["API Management Gateway"]
         Policy["Policies & Governance"]
-        Telemetry["Telemetry & Metrics"]
+        Telemetry["Telemetry & Metrics Pipeline"]
     end
 
-    %% ---- ORCHESTRATION LAYER (2: Composition & Distributed Architecture) ----
-    subgraph Orchestration["2️⃣ Orchestration & AI Processing"]
+    %% ---- ORCHESTRATION (2: Composition) ----
+    subgraph Orchestration["2️⃣ AI Orchestration & Capability Composition"]
         Router["LLM Router / Orchestrator"]
         Safety["Safety & PII Filters"]
         Cache["Semantic Cache"]
     end
 
-    %% ---- MODELS & TOOLS (2: Part of Capability Composition) ----
-    subgraph ModelsTools["2️⃣ Models & Tools"]
+    %% ---- MODELS & TOOLS (2) ----
+    subgraph ModelsTools["2️⃣ Models, Providers & Tools"]
         OpenAI["Azure OpenAI / LLMs"]
         OtherLLM["Other LLM Providers"]
-        InternalAPIs["Internal APIs / Services"]
-        Tools["Domain Tools & Plugins"]
+        InternalAPIs["Internal APIs & Services"]
+        Tools["Enterprise Tools & Plugins"]
     end
 
-    %% ---- DATA & CONTEXT (2: Composition / Context Enrichment) ----
-    subgraph Data["2️⃣ Data & Context Sources"]
-        VectorDB["Vector Store / Search"]
+    %% ---- DATA (2) ----
+    subgraph Data["2️⃣ Contextual Data Sources"]
+        VectorDB["Vector Store / Semantic Search"]
         BusinessData["Business Systems / Databases"]
     end
 
-    %% ---- PLATFORM SERVICES (3: Security, Governance, Operations) ----
+    %% ---- PLATFORM SERVICES (3: Governance, Security, Ops) ----
     subgraph Platform["3️⃣ Platform Services (Security, Governance, Operations)"]
-        Identity["Entra ID (Identity)"]
+        Identity["Entra ID (Identity & Access)"]
         Observability["Logging & Monitoring"]
         FinOps["Cost & Usage Analytics"]
     end
 
-    %% FLOWS: CLIENTS -> GATEWAY
+    %% ---- FLOWS ----
     Apps --> APIM
     Bots --> APIM
     Copilot --> APIM
     PowerApps --> APIM
 
-    %% GATEWAY FLOWS (1)
     APIM --> Policy
     APIM --> Telemetry
     Policy --> Router
 
-    %% ORCHESTRATION FLOWS (2)
     Router --> Safety
     Router --> Cache
 
-    %% TARGETS (2)
     Router --> OpenAI
     Router --> OtherLLM
     Router --> InternalAPIs
@@ -67,11 +64,26 @@ flowchart LR
     Router --> VectorDB
     Router --> BusinessData
 
-    %% PLATFORM SERVICES (3)
     APIM --> Identity
     Router --> Identity
 
     Telemetry --> Observability
     Telemetry --> FinOps
+
+    %% ---- LEGEND ----
+    subgraph Legend["Legend: Section 2 Capability Groups"]
+        L1["1️⃣ **Platform Foundations & Core Access Services**  
+        (APIM, entry controls, policies, telemetry pipeline)"]
+
+        L2["2️⃣ **Business Capability Composition & Distributed Architecture**  
+        (LLM Router, Safety/PII, Semantic Cache, Models, Tools, Data APIs)"]
+
+        L3["3️⃣ **Securing, Operating & Governing Workloads**  
+        (Entra ID, Logging, Monitoring, FinOps, Governance Automation)"]
+
+        L4["4️⃣ **Enterprise Consumption & Experience**  
+        (Apps, Bots, Power Platform, Copilot/MCP, Unified Consumption Layer)"]
+    end
+
 
 
